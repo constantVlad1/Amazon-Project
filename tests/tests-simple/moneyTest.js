@@ -1,4 +1,4 @@
-import  {formatCurrency} from '../Scripst/utils/money.js';
+import  {formatCurrency} from '../../Scripst/utils/money.js';
 
 console.log('test suit: format currency');
 
