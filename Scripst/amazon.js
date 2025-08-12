@@ -1,14 +1,20 @@
 
 import { cart, addToCart,calcuateCartCuantity } from "../data/cart.js";
-import { products } from "../data/products.js";
+import { products, loadProducts } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
 
 
-let productsHTML = '';
-updateCartQuantity();
+loadProducts(renderProductsGrid);
+
+function renderProductsGrid(renderProductsGrid) {
 
 
-products.forEach((product) => {
+
+  let productsHTML = '';
+  updateCartQuantity();
+
+
+  products.forEach((product) => {
   productsHTML += `
   <div class="product-container">
       <div class="product-image-container">
@@ -61,40 +67,41 @@ products.forEach((product) => {
           Add to Cart
         </button>
       </div>`;
-});
+  });
 
-const productGrid = document.querySelector('.products-grid');
-productGrid.innerHTML = productsHTML;
+  const productGrid = document.querySelector('.products-grid');
+  productGrid.innerHTML = productsHTML;
 
 
-function updateCartQuantity() {
+  function updateCartQuantity() {
   let cartQuantity = calcuateCartCuantity();
 
-     if(cartQuantity == 0) {
+      if(cartQuantity == 0) {
       document.querySelector('.js-cart-quantity')
       .innerHTML = '';
-     } else {
-       document.querySelector('.js-cart-quantity')
+      } else {
+        document.querySelector('.js-cart-quantity')
         .innerHTML = cartQuantity;
-     }
+      }
 
-}
+  }
 
-document.querySelectorAll('.js-add-to-cart')
+  document.querySelectorAll('.js-add-to-cart')
   .forEach((button) => {
     button.addEventListener('click', () => {
-     const {productId} = button.dataset;
-     addToCart(productId);
-     updateCartQuantity();
+      const {productId} = button.dataset;
+      addToCart(productId);
+      updateCartQuantity();
 
-     
-     const addedMessage = document.querySelector(`.js-added-to-cart-${productId}`);
-     addedMessage.classList.add('added-to-cart-visible');
+      
+      const addedMessage = document.querySelector(`.js-added-to-cart-${productId}`);
+      addedMessage.classList.add('added-to-cart-visible');
 
 
     setTimeout(() => {
       addedMessage.classList.remove('added-to-cart-visible');
-     },1000);
-  
+      },1000);
+
     });
   });
+}
